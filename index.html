@@ -1,30 +1,721 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-  <title>Bilgilendirme</title>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mutlu Yılmazer – Otomat Gıda Hizmetleri</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --card: #1a1a26;
+    --accent: #f5c842;
+    --accent2: #e07b39;
+    --text: #f0eff5;
+    --muted: #888899;
+    --border: rgba(255,255,255,0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 40px 24px;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(245,200,66,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 20% 80%, rgba(224,123,57,0.1) 0%, transparent 60%);
+    z-index: 0;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 1100px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .hero-text { }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(245,200,66,0.15);
+    border: 1px solid rgba(245,200,66,0.3);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 7vw, 96px);
+    line-height: 0.95;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+  }
+
+  .hero-title span {
+    color: var(--accent);
+    display: block;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 420px;
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: #0a0a0f;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 6px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(245,200,66,0.3); }
+
+  .hero-image-wrap {
+    position: relative;
+  }
+
+  .hero-machine-img {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(245,200,66,0.1);
+    object-fit: cover;
+    aspect-ratio: 3/4;
+  }
+
+  .hero-machine-label {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    background: var(--accent);
+    color: #0a0a0f;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(245,200,66,0.4);
+  }
+
+  /* STATS */
+  .stats {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 24px;
+  }
+  .stats-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .stat {
+    text-align: center;
+    padding: 20px;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  /* SECTION COMMONS */
+  section { padding: 100px 24px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+  .section-sub {
+    color: var(--muted);
+    font-size: 16px;
+    font-weight: 300;
+    max-width: 540px;
+    margin-bottom: 60px;
+  }
+
+  /* PRODUCTS */
+  .products { background: var(--bg); }
+
+  .filter-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .filter-btn {
+    padding: 8px 20px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--accent);
+    color: #0a0a0f;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .product-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .product-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(245,200,66,0.2);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  }
+  .product-card:hover::before { opacity: 1; }
+
+  .product-cat-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: rgba(245,200,66,0.1);
+    color: var(--accent);
+    align-self: flex-start;
+  }
+  .product-cat-tag.drink { background: rgba(56,182,255,0.1); color: #38b6ff; }
+  .product-cat-tag.energy { background: rgba(224,123,57,0.1); color: var(--accent2); }
+  .product-cat-tag.water { background: rgba(100,200,255,0.1); color: #64c8ff; }
+
+  .product-name {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  .product-brand {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .product-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .product-price-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: -4px;
+  }
+
+  .product-icon {
+    font-size: 28px;
+    opacity: 0.8;
+  }
+
+  /* ABOUT */
+  .about { background: var(--surface); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-features {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .feature-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(245,200,66,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .feature-text h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .feature-text p { font-size: 14px; color: var(--muted); font-weight: 300; }
+
+  .about-img-wrap {
+    position: relative;
+  }
+  .about-img {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    object-fit: cover;
+    aspect-ratio: 4/5;
+  }
+  .about-img-badge {
+    position: absolute;
+    top: 24px;
+    left: -16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 13px;
+  }
+  .about-img-badge strong { display: block; font-size: 24px; color: var(--accent); font-family: 'Bebas Neue'; }
+
+  /* CONTACT */
+  .contact { background: var(--bg); }
+  .contact-inner-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .contact-detail {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .contact-detail-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: rgba(245,200,66,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .contact-detail-text label { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+  .contact-detail-text a, .contact-detail-text span {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .contact-detail-text a:hover { color: var(--accent); }
+
+  .contact-quote {
+    background: var(--surface);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    padding: 32px;
+  }
+  .contact-quote p {
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .contact-quote cite {
+    display: block;
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+  }
+  footer p { font-size: 13px; color: var(--muted); }
+  footer strong { color: var(--text); }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--text);
+    letter-spacing: 2px;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-size: 14px;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-image-wrap { order: -1; }
+    .hero-machine-img { aspect-ratio: 4/3; }
+    .hero-machine-label { bottom: -10px; right: -10px; }
+    .stats-inner { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-img-wrap { order: -1; }
+    .contact-inner-wrap { grid-template-columns: 1fr; padding: 32px; }
+    .nav-links { display: none; }
+    .hero { padding-top: 100px; }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-badge { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
+  .hero-title  { animation: fadeUp 0.6s ease both; animation-delay: 0.2s; }
+  .hero-desc   { animation: fadeUp 0.6s ease both; animation-delay: 0.3s; }
+  .hero-cta    { animation: fadeUp 0.6s ease both; animation-delay: 0.4s; }
+  .hero-image-wrap { animation: fadeUp 0.8s ease both; animation-delay: 0.2s; }
+</style>
 </head>
-<body style="max-width:600px; margin:40px auto; font-family:Arial; line-height:1.6;">
+<body>
 
-                   <h1>MUTLU YILMAZER</h1>
+<nav>
+  <div class="nav-logo">MUTLU <span>YIL</span>MAZER</div>
+  <div class="nav-links">
+    <a href="#urunler">Ürünler</a>
+    <a href="#hakkimizda">Hakkımızda</a>
+    <a href="#iletisim">İletişim</a>
+  </div>
+</nav>
 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">🤖 Otomat Gıda Hizmetleri</div>
+      <h1 class="hero-title">
+        HER AN,<br>
+        <span>HER YERDE</span>
+        GıDA
+      </h1>
+      <p class="hero-desc">
+        Ofisler, okullar, hastaneler ve kamusal alanlara yerleştirdiğimiz modern otomatlarla 7/24 hijyenik gıda ve içecek çözümleri sunuyoruz.
+      </p>
+      <a href="#urunler" class="hero-cta">
+        Ürünleri Görüntüle →
+      </a>
+    </div>
+    <div class="hero-image-wrap">
+      <img src="vending.jpg" alt="Otomat Makinesi" class="hero-machine-img" onerror="this.style.background='#1a1a26';this.style.display='flex'">
+      <div class="hero-machine-label">7 / 24 HİZMET</div>
+    </div>
+  </div>
+</section>
 
-  <h1>HAKKIMIZDA</h1>
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-num">13+</div>
+      <div class="stat-label">Farklı Ürün</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">7/24</div>
+      <div class="stat-label">Kesintisiz Hizmet</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">%100</div>
+      <div class="stat-label">Hijyenik & Taze</div>
+    </div>
+  </div>
+</div>
 
-  <p>
-    Otomat ile Gıda Ürünleri Satışı Hakkında
-Günümüzün hızlı yaşam temposunda, pratik ve ulaşılabilir çözümler her zamankinden daha önemli hale gelmiştir. Biz de bu ihtiyaca yanıt vererek, otomat sistemleri aracılığıyla hijyenik, hızlı ve güvenilir gıda ürünleri sunuyoruz.
-Faaliyetlerimiz kapsamında; yoğun insan trafiğinin bulunduğu ofisler, okullar, hastaneler, alışveriş merkezleri ve çeşitli kamusal alanlara yerleştirdiğimiz modern otomat cihazları ile kullanıcıların günün her saatinde ihtiyaç duydukları yiyecek ve içeceklere kolayca ulaşmalarını sağlıyoruz.
-Ürün yelpazemiz; atıştırmalıklar, sağlıklı alternatifler, sıcak ve soğuk içecekler gibi geniş bir seçenek sunacak şekilde özenle belirlenmektedir. Tüm ürünlerimiz düzenli olarak kontrol edilmekte, tazelik ve hijyen standartlarına büyük önem verilmektedir.
-Teknolojik altyapımız sayesinde temassız ödeme seçenekleri, hızlı işlem süresi ve kullanıcı dostu arayüz ile müşterilerimize konforlu bir alışveriş deneyimi sunuyoruz. Ayrıca, düzenli bakım ve dolum hizmetlerimiz ile cihazlarımızın kesintisiz hizmet vermesini garanti altına alıyoruz.
-Müşteri memnuniyetini ön planda tutarak, bulunduğumuz her noktada kaliteli hizmet sunmayı ve günlük yaşamı kolaylaştırmayı hedefliyoruz.
-Pratik, hızlı ve güvenilir gıda çözümleri için her zaman yanınızdayız.
-  </p>
+<!-- PRODUCTS -->
+<section class="products" id="urunler">
+  <div class="section-inner">
+    <div class="section-eyebrow">Ürün Kataloğu</div>
+    <h2 class="section-title">TÜM ÜRÜNLER</h2>
+    <p class="section-sub">Geniş ürün yelpazemizle her ihtiyacınıza uygun seçenekler sunuyoruz. Temassız ödeme ile saniyeler içinde alışveriş yapın.</p>
 
-  <p>
-    İletişim: mutluyilmazer97@gmail.com
-  </p>
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="filterProducts('all', this)">Tümü</button>
+      <button class="filter-btn" onclick="filterProducts('atistirmalik', this)">Atıştırmalık</button>
+      <button class="filter-btn" onclick="filterProducts('icecek', this)">İçecekler</button>
+      <button class="filter-btn" onclick="filterProducts('enerji', this)">Enerji & Protein</button>
+      <button class="filter-btn" onclick="filterProducts('su', this)">Su</button>
+    </div>
 
+    <div class="products-grid" id="productGrid">
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="hakkimizda">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div>
+        <div class="section-eyebrow">Hakkımızda</div>
+        <h2 class="section-title">NEDEN BİZ?</h2>
+        <p style="color: var(--muted); font-weight: 300; font-size: 15px;">
+          Günümüzün hızlı yaşam temposunda, pratik ve ulaşılabilir çözümler her zamankinden daha önemlidir. Modern otomat sistemlerimizle kullanıcılara konforlu bir alışveriş deneyimi sunuyoruz.
+        </p>
+        <div class="about-features">
+          <div class="feature-item">
+            <div class="feature-icon">💳</div>
+            <div class="feature-text">
+              <h4>Temassız Ödeme</h4>
+              <p>Kredi kartı, banka kartı ve dijital ödeme yöntemleriyle hızlı işlem.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🧊</div>
+            <div class="feature-text">
+              <h4>Hijyen & Tazelik</h4>
+              <p>Tüm ürünler düzenli olarak kontrol edilir, son kullanma tarihleri takip edilir.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🔧</div>
+            <div class="feature-text">
+              <h4>Düzenli Bakım</h4>
+              <p>Cihazlarımız düzenli bakım ve dolum hizmetleriyle kesintisiz çalışır.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">📍</div>
+            <div class="feature-text">
+              <h4>Geniş Yerleşim Ağı</h4>
+              <p>Ofisler, okullar, hastaneler ve AVM'lerde stratejik konumlandırma.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="about-img-wrap">
+        <img src="vending.jpg" alt="Otomat" class="about-img" onerror="this.style.background='#1a1a26'">
+        <div class="about-img-badge">
+          <strong>13+</strong>
+          Farklı ürün çeşidi
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="iletisim">
+  <div class="section-inner">
+    <div class="section-eyebrow">İletişim</div>
+    <h2 class="section-title">BİZE ULAŞIN</h2>
+    <p class="section-sub">Otomat yerleşim talebiniz veya diğer sorularınız için bizimle iletişime geçin.</p>
+
+    <div class="contact-inner-wrap">
+      <div>
+        <h3 style="font-size: 24px; margin-bottom: 8px;">Mutlu Yılmazer</h3>
+        <p style="color: var(--muted); font-size: 14px;">Otomat Gıda Hizmetleri</p>
+        <div class="contact-detail">
+          <div class="contact-detail-icon">📧</div>
+          <div class="contact-detail-text">
+            <label>E-posta</label>
+            <a href="mailto:mutluyilmazer97@gmail.com">mutluyilmazer97@gmail.com</a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-quote">
+        <p>
+          "Müşteri memnuniyetini ön planda tutarak, bulunduğumuz her noktada kaliteli hizmet sunmayı ve günlük yaşamı kolaylaştırmayı hedefliyoruz."
+        </p>
+        <cite>— Mutlu Yılmazer</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 <strong>Mutlu Yılmazer</strong> Otomat Gıda Hizmetleri. Tüm hakları saklıdır.</p>
+</footer>
+
+<script>
+const products = [
+  { name: "Ülker Çubuk Kraker", brand: "Ülker", price: 20, cat: "atistirmalik", emoji: "🥨" },
+  { name: "Tadım Sportif Bar", brand: "Tadım", price: 40, cat: "atistirmalik", emoji: "🌾" },
+  { name: "Nestlé Nesfit Bar", brand: "Nestlé", price: 50, cat: "atistirmalik", emoji: "🍫" },
+  { name: "Eti Karam Gurme", brand: "Eti", price: 40, cat: "atistirmalik", emoji: "🍫" },
+  { name: "Ülker Çikolatalı Gofret", brand: "Ülker", price: 25, cat: "atistirmalik", emoji: "🧇" },
+  { name: "Vivident 45 Dakika", brand: "Vivident", price: 75, cat: "atistirmalik", emoji: "🍬" },
+  { name: "Powerade Enerji İçeceği", brand: "Powerade", price: 100, cat: "enerji", emoji: "⚡" },
+  { name: "Red Bull Enerji İçeceği", brand: "Red Bull", price: 100, cat: "enerji", emoji: "🐂" },
+  { name: "Pınar Protein Süt", brand: "Pınar", price: 100, cat: "enerji", emoji: "💪" },
+  { name: "Nescafé Xpress Soğuk Kahve", brand: "Nescafé", price: 100, cat: "icecek", emoji: "☕" },
+  { name: "Capri-Sun Safari Meyve Suyu", brand: "Capri-Sun", price: 35, cat: "icecek", emoji: "🧃" },
+  { name: "Buzdağı Su", brand: "Buzdağı", price: 30, cat: "su", emoji: "💧" },
+  { name: "Beypazarı Maden Suyu", brand: "Beypazarı", price: 30, cat: "su", emoji: "🫧" },
+];
+
+function getCatLabel(cat) {
+  const map = { atistirmalik: "Atıştırmalık", icecek: "İçecek", enerji: "Enerji & Protein", su: "Su" };
+  return map[cat] || cat;
+}
+
+function getCatClass(cat) {
+  const map = { atistirmalik: "", icecek: "drink", enerji: "energy", su: "water" };
+  return map[cat] || "";
+}
+
+function renderProducts(filter) {
+  const grid = document.getElementById('productGrid');
+  const filtered = filter === 'all' ? products : products.filter(p => p.cat === filter);
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card" data-cat="${p.cat}">
+      <span class="product-cat-tag ${getCatClass(p.cat)}">${getCatLabel(p.cat)}</span>
+      <div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-brand">${p.brand}</div>
+      </div>
+      <div class="product-footer">
+        <div>
+          <div class="product-price">${p.price} TL</div>
+          <div class="product-price-sub">Temassız Ödeme</div>
+        </div>
+        <div class="product-icon">${p.emoji}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProducts(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProducts(cat);
+}
+
+renderProducts('all');
+</script>
 </body>
 </html>
-
